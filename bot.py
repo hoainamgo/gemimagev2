@@ -61,8 +61,13 @@ def main() -> None:
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, generate_image))
 
-    # Bắt đầu bot
-    application.run_polling()
+    # Thiết lập Webhook
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=int(os.environ.get("PORT", 80)),  # Sử dụng cổng từ biến môi trường hoặc mặc định là 80
+        url_path=TELEGRAM_BOT_TOKEN,
+        webhook_url=f"https://your-render-app.onrender.com/{TELEGRAM_BOT_TOKEN}"
+    )
 
 if __name__ == "__main__":
     main()
